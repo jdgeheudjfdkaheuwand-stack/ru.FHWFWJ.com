@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>GAMEHUB — каталог игр и приложений</title>
+  <meta name="description" content="GAMEHUB — каталог игр и приложений со скачиванием. Регистрация не обязательна.">
+  <meta name="theme-color" content="#0b0917">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%237c5cff'/%3E%3Cpath d='M9 16h6M12 13v6' stroke='white' stroke-width='2.4' stroke-linecap='round'/%3E%3Ccircle cx='21' cy='15' r='1.7' fill='white'/%3E%3Ccircle cx='24' cy='18' r='1.7' fill='white'/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Unbounded:wght@600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="wrap topbar-in">
+      <span data-logo="index.html"></span>
+      <nav class="mainnav" aria-label="Основное меню">
+        <a href="#games" data-view="games"><span class="ico" data-icon="gamepad" data-size="18"></span><span>Игры</span></a>
+        <a href="#apps" data-view="apps"><span class="ico" data-icon="grid" data-size="18"></span><span>Приложения</span></a>
+        <a href="#about" data-view="about"><span class="ico" data-icon="info" data-size="18"></span><span>О сайте</span></a>
+      </nav>
+      <div class="auth-area" id="authArea"></div>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero" id="hero">
+      <div class="wrap">
+        <h1 class="hero-title">Игры и приложения.<br>Скачивайте без регистрации.</h1>
+        <p class="hero-sub">Нажмите «Скачать», подождите 10 секунд — и файл ваш.</p>
+
+        <div class="search" role="search">
+          <span class="ico search-ico" data-icon="search" data-size="22"></span>
+          <input id="searchInput" type="search" placeholder="Найти игру по названию, жанру или платформе" autocomplete="off" aria-label="Поиск по каталогу">
+          <button class="search-clear" id="searchClear" type="button" aria-label="Очистить поиск" hidden><span class="ico" data-icon="close" data-size="18"></span></button>
+        </div>
+
+        <div class="chips" id="chips" role="group" aria-label="Категории"></div>
+
+        <div class="guest-banner" id="guestBanner" hidden>
+          <div class="guest-text">
+            <strong>Аккаунт не нужен.</strong>
+            <span>Каталог, поиск и скачивание доступны всем.</span>
+          </div>
+          <div class="guest-actions">
+            <button class="btn btn-ghost" type="button" id="guestBtn"><span class="ico" data-icon="user" data-size="18"></span>Продолжить как гость</button>
+            <a class="btn btn-primary" href="auth.html#login"><span class="ico" data-icon="login" data-size="18"></span>Войти</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="catalog" id="catalog" aria-live="polite">
+      <div class="wrap">
+        <div class="section-head">
+          <h2 id="sectionTitle">Игры</h2>
+          <span class="count" id="sectionCount"></span>
+        </div>
+        <div class="grid" id="grid"></div>
+        <div class="empty" id="empty" hidden>
+          <span class="ico empty-ico" data-icon="search" data-size="40"></span>
+          <h3>Ничего не найдено</h3>
+          <p>Проверьте написание или сбросьте фильтры.</p>
+          <button class="btn btn-primary" type="button" id="resetFilters">Сбросить фильтры</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="about" id="about" hidden>
+      <div class="wrap about-in">
+        <h2>О сайте</h2>
+        <p class="about-lead">GAMEHUB — каталог игр и приложений. Мы не храним файлы у себя: каждая кнопка «Скачать» ведёт на внешнее хранилище, поэтому размер файла (даже около 1 ГБ) не ограничивает каталог.</p>
+        <div class="about-grid">
+          <div class="about-card">
+            <span class="ico" data-icon="clock" data-size="26"></span>
+            <h3>Как скачать</h3>
+            <p>Откройте карточку, нажмите «Скачать», дождитесь конца таймера в 10 секунд и нажмите «Скачать игру».</p>
+          </div>
+          <div class="about-card">
+            <span class="ico" data-icon="user" data-size="26"></span>
+            <h3>Нужен ли аккаунт</h3>
+            <p>Нет. Гости могут смотреть каталог, искать и скачивать. Аккаунт — по желанию.</p>
+          </div>
+          <div class="about-card">
+            <span class="ico" data-icon="shield" data-size="26"></span>
+            <h3>О данных аккаунта</h3>
+            <p>В этой версии аккаунты хранятся только в вашем браузере, а не на сервере. Не используйте здесь пароль от важных сервисов.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="wrap"><div class="ad-slot ad-bottom" id="adBottom" data-label="Реклама" hidden></div></div>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap footer-in">
+      <span data-logo="index.html"></span>
+      <span class="footer-note">© <span id="year"></span> GAMEHUB</span>
+      <a class="footer-link" href="admin.html"><span class="ico" data-icon="settings" data-size="16"></span>Админ-панель</a>
+    </div>
+  </footer>
+
+  <nav class="tabbar" aria-label="Нижнее меню">
+    <a href="#games" data-view="games"><span class="ico" data-icon="gamepad" data-size="22"></span><span>Игры</span></a>
+    <a href="#apps" data-view="apps"><span class="ico" data-icon="grid" data-size="22"></span><span>Приложения</span></a>
+    <a href="#about" data-view="about"><span class="ico" data-icon="info" data-size="22"></span><span>О сайте</span></a>
+  </nav>
+
+  <div class="modal" id="modal" hidden role="dialog" aria-modal="true" aria-labelledby="modalTitleAnchor">
+    <div class="modal-backdrop" id="modalBackdrop"></div>
+    <div class="modal-dialog" id="modalDialog">
+      <button class="modal-close" id="modalClose" type="button" aria-label="Закрыть"><span class="ico" data-icon="close" data-size="20"></span></button>
+      <div id="modalBody"></div>
+    </div>
+  </div>
+
+  <script src="js/data.js"></script>
+  <script src="js/common.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

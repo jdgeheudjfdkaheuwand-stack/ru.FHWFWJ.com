@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Админ-панель — GAMEHUB</title>
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="theme-color" content="#0b0917">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%237c5cff'/%3E%3Cpath d='M9 16h6M12 13v6' stroke='white' stroke-width='2.4' stroke-linecap='round'/%3E%3Ccircle cx='21' cy='15' r='1.7' fill='white'/%3E%3Ccircle cx='24' cy='18' r='1.7' fill='white'/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Unbounded:wght@600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="page-admin">
+  <header class="topbar">
+    <div class="wrap topbar-in">
+      <span data-logo="index.html"></span>
+      <span class="admin-tag"><span class="ico" data-icon="shield" data-size="16"></span>Админ-панель</span>
+      <div class="auth-area">
+        <a class="btn btn-ghost btn-sm" href="index.html"><span class="ico" data-icon="back" data-size="18"></span><span>На сайт</span></a>
+        <button class="btn btn-ghost btn-sm" type="button" id="adminLogout" hidden><span class="ico" data-icon="logout" data-size="18"></span><span class="btn-text">Выйти</span></button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ВХОД / СОЗДАНИЕ АДМИНА -->
+  <main class="auth-main" id="gate" hidden>
+    <div class="auth-card">
+      <form id="setupForm" class="form" novalidate hidden>
+        <div class="auth-avatar"><span class="ico" data-icon="key" data-size="30"></span></div>
+        <h1 class="auth-title">Создание администратора</h1>
+        <p class="auth-sub">Первый запуск. Придумайте логин и пароль — они будут храниться в этом браузере в виде хэша. Пароль в код сайта не записывается.</p>
+        <div class="form-error" id="setupError" role="alert" hidden><span class="ico" data-icon="alert" data-size="18"></span><span class="form-error-text"></span></div>
+        <label class="field"><span class="field-label">Логин администратора</span>
+          <span class="input-wrap"><span class="ico input-ico" data-icon="user" data-size="18"></span>
+          <input id="setupUser" type="text" autocomplete="username" maxlength="24" placeholder="Например: boss_2026" required></span></label>
+        <label class="field"><span class="field-label">Пароль (от 8 символов)</span>
+          <span class="input-wrap"><span class="ico input-ico" data-icon="lock" data-size="18"></span>
+          <input id="setupPass" type="password" autocomplete="new-password" placeholder="Надёжный пароль" required>
+          <button class="toggle-pass" type="button" data-target="setupPass" aria-label="Показать пароль"><span class="ico" data-icon="eye" data-size="18"></span></button></span></label>
+        <label class="field"><span class="field-label">Подтвердить пароль</span>
+          <span class="input-wrap"><span class="ico input-ico" data-icon="lock" data-size="18"></span>
+          <input id="setupPass2" type="password" autocomplete="new-password" placeholder="Повторите пароль" required>
+          <button class="toggle-pass" type="button" data-target="setupPass2" aria-label="Показать пароль"><span class="ico" data-icon="eye" data-size="18"></span></button></span></label>
+        <button class="btn btn-primary btn-block btn-lg" type="submit" id="setupSubmit"><span class="ico" data-icon="shield" data-size="20"></span>СОЗДАТЬ И ВОЙТИ</button>
+      </form>
+
+      <form id="adminLoginForm" class="form" novalidate hidden>
+        <div class="auth-avatar"><span class="ico" data-icon="shield" data-size="30"></span></div>
+        <h1 class="auth-title">Вход для администратора</h1>
+        <p class="auth-sub">Введите логин и пароль, созданные при первом запуске.</p>
+        <div class="form-error" id="adminLoginError" role="alert" hidden><span class="ico" data-icon="alert" data-size="18"></span><span class="form-error-text"></span></div>
+        <label class="field"><span class="field-label">Логин</span>
+          <span class="input-wrap"><span class="ico input-ico" data-icon="user" data-size="18"></span>
+          <input id="adminUser" type="text" autocomplete="username" maxlength="24" placeholder="Логин администратора" required></span></label>
+        <label class="field"><span class="field-label">Пароль</span>
+          <span class="input-wrap"><span class="ico input-ico" data-icon="lock" data-size="18"></span>
+          <input id="adminPass" type="password" autocomplete="current-password" placeholder="Пароль" required>
+          <button class="toggle-pass" type="button" data-target="adminPass" aria-label="Показать пароль"><span class="ico" data-icon="eye" data-size="18"></span></button></span></label>
+        <button class="btn btn-primary btn-block btn-lg" type="submit" id="adminLoginSubmit"><span class="ico" data-icon="login" data-size="20"></span>ВОЙТИ</button>
+      </form>
+    </div>
+  </main>
+
+  <!-- ПАНЕЛЬ -->
+  <main class="admin-main" id="panel" hidden>
+    <div class="wrap">
+      <h1 class="admin-title">Управление каталогом</h1>
+
+      <div class="stats" id="stats"></div>
+      <p class="stats-note">Статистика считается в этом браузере (без сервера). Подробнее — во вкладке «Публикация».</p>
+
+      <div class="tabs" role="tablist">
+        <button class="tab active" type="button" role="tab" data-tab="catalog"><span class="ico" data-icon="gamepad" data-size="18"></span>Каталог</button>
+        <button class="tab" type="button" role="tab" data-tab="ads"><span class="ico" data-icon="megaphone" data-size="18"></span>Реклама</button>
+        <button class="tab" type="button" role="tab" data-tab="publish"><span class="ico" data-icon="upload" data-size="18"></span>Публикация</button>
+        <button class="tab" type="button" role="tab" data-tab="account"><span class="ico" data-icon="key" data-size="18"></span>Аккаунт</button>
+      </div>
+
+      <!-- КАТАЛОГ -->
+      <section class="tab-panel" id="tab-catalog">
+        <div class="panel-card" id="formCard">
+          <h2 class="panel-title" id="formTitle">Добавить игру</h2>
+          <form id="gameForm" novalidate>
+            <input type="hidden" id="fId">
+            <div class="form-grid">
+              <label class="field"><span class="field-label">Название</span>
+                <input id="fTitle" type="text" maxlength="80" placeholder="Например: Neon Drift" required></label>
+              <label class="field"><span class="field-label">Тип</span>
+                <select id="fType"><option value="game">Игра</option><option value="app">Приложение</option></select></label>
+              <label class="field full"><span class="field-label">Описание</span>
+                <textarea id="fDesc" rows="3" maxlength="800" placeholder="Коротко о том, что это и чем интересно" required></textarea></label>
+              <label class="field full"><span class="field-label">Обложка URL</span>
+                <input id="fCover" type="url" placeholder="https://example.com/cover.jpg (можно оставить пустым — обложка создастся сама)"></label>
+              <label class="field"><span class="field-label">Размер</span>
+                <input id="fSize" type="text" maxlength="20" placeholder="Например: 850 МБ или 1 ГБ" required></label>
+              <label class="field"><span class="field-label">Версия</span>
+                <input id="fVersion" type="text" maxlength="20" placeholder="Например: 1.2.0" required></label>
+              <label class="field"><span class="field-label">Платформа</span>
+                <input id="fPlatform" type="text" list="platformList" maxlength="30" placeholder="Android, Windows…" required>
+                <datalist id="platformList"><option value="Android"><option value="Windows"><option value="iOS"><option value="macOS"><option value="Linux"><option value="Windows / Android"></datalist></label>
+              <label class="field"><span class="field-label">Категория</span>
+                <input id="fCategory" type="text" list="catList" maxlength="30" placeholder="Экшен, Гонки, RPG…">
+                <datalist id="catList"></datalist></label>
+              <label class="field full"><span class="field-label">Ссылка на файл</span>
+                <input id="fFile" type="url" placeholder="https://example.com/game.apk" required>
+                <span class="field-hint">Прямая ссылка на файл во внешнем хранилище — по ней идёт скачивание.</span></label>
+            </div>
+            <div class="form-error" id="gameError" role="alert" hidden><span class="ico" data-icon="alert" data-size="18"></span><span class="form-error-text"></span></div>
+            <div class="form-actions">
+              <button class="btn btn-primary btn-lg" type="submit" id="gameSubmit"><span class="ico" data-icon="plus" data-size="20"></span><span id="gameSubmitText">ДОБАВИТЬ ИГРУ</span></button>
+              <button class="btn btn-ghost btn-lg" type="button" id="gameCancel" hidden>Отмена</button>
+            </div>
+          </form>
+        </div>
+
+        <div class="panel-card">
+          <h2 class="panel-title">Все позиции <span class="count" id="listCount"></span></h2>
+          <div class="rows" id="rows"></div>
+        </div>
+      </section>
+
+      <!-- РЕКЛАМА -->
+      <section class="tab-panel" id="tab-ads" hidden>
+        <div class="panel-card">
+          <h2 class="panel-title">Реклама</h2>
+          <p class="panel-text">Вставьте рекламный HTML-код (баннер, скрипт рекламной сети). Он появится в выбранных местах. Реклама не перекрывает навигацию и не всплывает поверх страницы.</p>
+          <label class="field"><span class="field-label">Рекламный HTML-код</span>
+            <textarea id="adCode" rows="7" spellcheck="false" class="mono" placeholder="&lt;a href=&quot;https://example.com&quot;&gt;&lt;img src=&quot;https://example.com/banner.png&quot; alt=&quot;&quot;&gt;&lt;/a&gt;"></textarea></label>
+          <div class="switches">
+            <label class="switch"><input type="checkbox" id="adInline"><span class="track"></span><span>Между карточками</span></label>
+            <label class="switch"><input type="checkbox" id="adBottom"><span class="track"></span><span>Внизу страницы</span></label>
+            <label class="switch"><input type="checkbox" id="adDownload"><span class="track"></span><span>Перед скачиванием</span></label>
+          </div>
+          <div class="form-actions">
+            <button class="btn btn-primary btn-lg" type="button" id="adSave"><span class="ico" data-icon="save" data-size="20"></span>СОХРАНИТЬ</button>
+            <button class="btn btn-ghost btn-lg" type="button" id="adPreview">Предпросмотр</button>
+            <button class="btn btn-ghost btn-lg" type="button" id="adClear">Очистить</button>
+          </div>
+          <div class="ad-slot ad-preview" id="adPreviewBox" data-label="Предпросмотр" hidden></div>
+        </div>
+      </section>
+
+      <!-- ПУБЛИКАЦИЯ -->
+      <section class="tab-panel" id="tab-publish" hidden>
+        <div class="panel-card">
+          <h2 class="panel-title">Как показать изменения всем посетителям</h2>
+          <p class="panel-text">GitHub Pages — статический хостинг без сервера, поэтому всё, что вы меняете здесь, сохраняется <strong>только в этом браузере</strong>. Посетители видят каталог из файла <code>js/data.js</code> в репозитории. Чтобы опубликовать изменения для всех:</p>
+          <ol class="steps">
+            <li>Нажмите «Скачать data.js».</li>
+            <li>В репозитории на GitHub откройте <code>js/data.js</code> → значок карандаша (Edit) или загрузите файл поверх старого.</li>
+            <li>Сохраните изменения (Commit). Через минуту сайт обновится у всех.</li>
+          </ol>
+          <div class="form-actions">
+            <button class="btn btn-primary btn-lg" type="button" id="exportBtn"><span class="ico" data-icon="download" data-size="20"></span>Скачать data.js</button>
+            <button class="btn btn-ghost btn-lg" type="button" id="copyBtn"><span class="ico" data-icon="copy" data-size="20"></span>Скопировать код</button>
+          </div>
+        </div>
+        <div class="panel-card">
+          <h2 class="panel-title">Импорт и сброс</h2>
+          <p class="panel-text">Загрузите ранее сохранённый <code>data.js</code> или <code>.json</code>, чтобы продолжить редактирование на другом устройстве. «Сбросить» удалит локальные правки и вернёт каталог из <code>js/data.js</code>.</p>
+          <div class="form-actions">
+            <label class="btn btn-ghost btn-lg file-btn"><span class="ico" data-icon="upload" data-size="20"></span>Импортировать файл<input type="file" id="importFile" accept=".js,.json,application/json,text/javascript"></label>
+            <button class="btn btn-danger btn-lg" type="button" id="resetBtn"><span class="ico" data-icon="trash" data-size="20"></span>Сбросить локальные правки</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- АККАУНТ -->
+      <section class="tab-panel" id="tab-account" hidden>
+        <div class="panel-card narrow">
+          <h2 class="panel-title">Смена пароля администратора</h2>
+          <form id="passForm" novalidate>
+            <div class="form-error" id="passError" role="alert" hidden><span class="ico" data-icon="alert" data-size="18"></span><span class="form-error-text"></span></div>
+            <label class="field"><span class="field-label">Текущий пароль</span><input id="pOld" type="password" autocomplete="current-password"></label>
+            <label class="field"><span class="field-label">Новый пароль (от 8 символов)</span><input id="pNew" type="password" autocomplete="new-password"></label>
+            <label class="field"><span class="field-label">Повторите новый пароль</span><input id="pNew2" type="password" autocomplete="new-password"></label>
+            <div class="form-actions"><button class="btn btn-primary btn-lg" type="submit" id="passSubmit"><span class="ico" data-icon="save" data-size="20"></span>Сменить пароль</button></div>
+          </form>
+        </div>
+        <div class="panel-card narrow">
+          <h2 class="panel-title">Удалить доступ администратора</h2>
+          <p class="panel-text">Удалит логин и пароль администратора из этого браузера. При следующем открытии админ-панели можно будет создать новые.</p>
+          <button class="btn btn-danger btn-lg" type="button" id="deleteAdminBtn"><span class="ico" data-icon="trash" data-size="20"></span>Удалить доступ</button>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <script src="js/data.js"></script>
+  <script src="js/common.js"></script>
+  <script src="js/admin.js"></script>
+</body>
+</html>

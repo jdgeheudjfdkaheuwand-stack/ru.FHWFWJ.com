@@ -1,0 +1,10 @@
+# ОС и редакторы
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Локальные файлы
+*.log
+*.tmp
+node_modules/

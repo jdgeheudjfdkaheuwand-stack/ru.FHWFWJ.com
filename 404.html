@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Страница не найдена — GAMEHUB</title>
+  <meta name="theme-color" content="#0b0917">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;700;800&family=Unbounded:wght@800&display=swap" rel="stylesheet">
+  <style>
+    :root{--bg:#0b0917;--panel:#171330;--line:#2a2450;--text:#eeebff;--muted:#a29dc9}
+    *{box-sizing:border-box}
+    body{margin:0;min-height:100vh;display:grid;place-items:center;padding:24px;background:var(--bg);color:var(--text);font-family:'Manrope',system-ui,sans-serif;text-align:center}
+    .box{max-width:460px}
+    .code{font-family:'Unbounded',sans-serif;font-weight:800;font-size:clamp(72px,22vw,132px);line-height:1;color:#7c5cff}
+    h1{margin:10px 0 8px;font-size:24px}
+    p{margin:0 0 24px;color:var(--muted)}
+    a{display:inline-flex;align-items:center;justify-content:center;padding:14px 24px;border-radius:14px;background:linear-gradient(135deg,#8b6bff,#6a47ff);color:#fff;font-weight:800;text-decoration:none;box-shadow:0 6px 18px rgba(124,92,255,.35)}
+  </style>
+</head>
+<body>
+  <div class="box">
+    <div class="code">404</div>
+    <h1>Такой страницы нет</h1>
+    <p>Возможно, ссылка устарела или в адресе опечатка. Вернитесь в каталог.</p>
+    <a id="home" href="./">Вернуться в каталог</a>
+  </div>
+  <script>
+    /* Для сайта в подпапке (username.github.io/GameHub/) ведём на корень проекта, а не домена. */
+    (function () {
+      var parts = location.pathname.split('/').filter(Boolean);
+      var host = location.hostname;
+      var base = (/\.github\.io$/.test(host) && parts.length) ? '/' + parts[0] + '/' : '/';
+      document.getElementById('home').setAttribute('href', base);
+    })();
+  </script>
+</body>
+</html>

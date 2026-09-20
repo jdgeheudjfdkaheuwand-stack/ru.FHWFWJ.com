@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Вход и регистрация — GAMEHUB</title>
+  <meta name="theme-color" content="#0b0917">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%237c5cff'/%3E%3Cpath d='M9 16h6M12 13v6' stroke='white' stroke-width='2.4' stroke-linecap='round'/%3E%3Ccircle cx='21' cy='15' r='1.7' fill='white'/%3E%3Ccircle cx='24' cy='18' r='1.7' fill='white'/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Unbounded:wght@600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="page-auth">
+  <header class="topbar">
+    <div class="wrap topbar-in">
+      <span data-logo="index.html"></span>
+      <div class="auth-area">
+        <a class="btn btn-ghost btn-sm" href="index.html"><span class="ico" data-icon="back" data-size="18"></span><span>В каталог</span></a>
+      </div>
+    </div>
+  </header>
+
+  <main class="auth-main">
+    <div class="auth-card" id="authCard">
+
+      <!-- Уже вошли -->
+      <div id="already" hidden>
+        <div class="auth-avatar" id="alreadyAvatar"></div>
+        <h1 class="auth-title">Вы уже вошли</h1>
+        <p class="auth-sub" id="alreadyText"></p>
+        <a class="btn btn-primary btn-block btn-lg" href="index.html">Перейти в каталог</a>
+        <button class="btn btn-ghost btn-block" type="button" id="alreadyLogout"><span class="ico" data-icon="logout" data-size="18"></span>Выйти из аккаунта</button>
+      </div>
+
+      <div id="forms">
+        <div class="seg" role="tablist" aria-label="Вход или регистрация">
+          <button class="seg-btn" type="button" role="tab" data-tab="login" id="tabLogin" aria-selected="true">Вход</button>
+          <button class="seg-btn" type="button" role="tab" data-tab="register" id="tabRegister" aria-selected="false">Регистрация</button>
+        </div>
+
+        <!-- ВХОД -->
+        <form id="loginForm" class="form" novalidate autocomplete="on">
+          <h1 class="auth-title">С возвращением</h1>
+          <p class="auth-sub">Введите username и пароль, которые вы указывали при регистрации.</p>
+          <div class="form-error" id="loginError" role="alert" hidden><span class="ico" data-icon="alert" data-size="18"></span><span class="form-error-text"></span></div>
+
+          <label class="field">
+            <span class="field-label">Username</span>
+            <span class="input-wrap">
+              <span class="ico input-ico" data-icon="user" data-size="18"></span>
+              <input id="loginUser" name="username" type="text" autocomplete="username" maxlength="24" placeholder="Ваш username" required>
+            </span>
+          </label>
+          <label class="field">
+            <span class="field-label">Пароль</span>
+            <span class="input-wrap">
+              <span class="ico input-ico" data-icon="lock" data-size="18"></span>
+              <input id="loginPass" name="password" type="password" autocomplete="current-password" placeholder="Пароль" required>
+              <button class="toggle-pass" type="button" data-target="loginPass" aria-label="Показать пароль"><span class="ico" data-icon="eye" data-size="18"></span></button>
+            </span>
+          </label>
+          <button class="btn btn-primary btn-block btn-lg" type="submit" id="loginSubmit"><span class="ico" data-icon="login" data-size="20"></span>ВОЙТИ</button>
+        </form>
+
+        <!-- РЕГИСТРАЦИЯ -->
+        <form id="registerForm" class="form" novalidate autocomplete="on" hidden>
+          <h1 class="auth-title">Создать аккаунт</h1>
+          <p class="auth-sub">Займёт полминуты. Почта и телефон не нужны.</p>
+          <div class="form-error" id="registerError" role="alert" hidden><span class="ico" data-icon="alert" data-size="18"></span><span class="form-error-text"></span></div>
+
+          <label class="field">
+            <span class="field-label">Username</span>
+            <span class="input-wrap">
+              <span class="ico input-ico" data-icon="user" data-size="18"></span>
+              <input id="regUser" name="username" type="text" autocomplete="username" maxlength="24" placeholder="От 3 до 24 символов" required>
+            </span>
+            <span class="field-hint">Латиница, кириллица, цифры, _ и -</span>
+          </label>
+          <label class="field">
+            <span class="field-label">Пароль</span>
+            <span class="input-wrap">
+              <span class="ico input-ico" data-icon="lock" data-size="18"></span>
+              <input id="regPass" name="password" type="password" autocomplete="new-password" placeholder="Минимум 6 символов" required>
+              <button class="toggle-pass" type="button" data-target="regPass" aria-label="Показать пароль"><span class="ico" data-icon="eye" data-size="18"></span></button>
+            </span>
+          </label>
+          <label class="field">
+            <span class="field-label">Подтвердить пароль</span>
+            <span class="input-wrap">
+              <span class="ico input-ico" data-icon="lock" data-size="18"></span>
+              <input id="regPass2" name="password2" type="password" autocomplete="new-password" placeholder="Повторите пароль" required>
+              <button class="toggle-pass" type="button" data-target="regPass2" aria-label="Показать пароль"><span class="ico" data-icon="eye" data-size="18"></span></button>
+            </span>
+          </label>
+          <button class="btn btn-primary btn-block btn-lg" type="submit" id="registerSubmit"><span class="ico" data-icon="userplus" data-size="20"></span>ЗАРЕГИСТРИРОВАТЬСЯ</button>
+        </form>
+
+        <div class="divider"><span>или</span></div>
+        <a class="btn btn-ghost btn-block" href="index.html#games" id="guestBtn"><span class="ico" data-icon="user" data-size="18"></span>Продолжить как гость</a>
+        <p class="auth-note">Аккаунты в этой версии хранятся только в вашем браузере.</p>
+      </div>
+    </div>
+  </main>
+
+  <script src="js/data.js"></script>
+  <script src="js/common.js"></script>
+  <script src="js/auth.js"></script>
+</body>
+</html>
